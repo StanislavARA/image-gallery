@@ -1,14 +1,29 @@
 import React from 'react';
-import {View} from 'react-native';
+import {
+    createNavigationContainerRef,
+    NavigationContainer,
+} from '@react-navigation/native';
+import {ModalStack} from './src/ui/components/ModalStack';
+import {observer} from 'mobx-react-lite';
+import {MainStack} from './src/ui/navigation/MainStack';
+import {useAppStore} from './src/ui/hooks/useAppStore';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
+const navigationRef = createNavigationContainerRef();
 
-function App(): React.ReactElement {
+const App = observer(() => {
+    const store = useAppStore();
 
-  return (
-      <View>
+    store.init();
 
-      </View>
-  )
-}
+    return (
+        <SafeAreaProvider>
+            <NavigationContainer ref={navigationRef}>
+                <ModalStack />
 
+                <MainStack />
+            </NavigationContainer>
+        </SafeAreaProvider>
+    );
+});
 export default App;
